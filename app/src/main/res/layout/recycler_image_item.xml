@@ -4,10 +4,12 @@
     android:layout_width="60dp"
     android:layout_height="60dp"
     android:orientation="vertical"
+    android:id="@+id/item_linearlayout"
+    android:background="@color/colorPrimaryDark"
     android:padding="5dp">
     <ImageView
         android:id="@+id/item_image_imageview"
-        android:layout_width="60dp"
-        android:layout_height="60dp"/>
+        android:layout_width="100dp"
+        android:layout_height="100dp" />
 
 </LinearLayout>
