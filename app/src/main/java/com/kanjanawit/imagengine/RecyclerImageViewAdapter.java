@@ -7,14 +7,14 @@ import android.graphics.Bitmap;
 import android.provider.MediaStore;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -59,15 +59,15 @@ class RecyclerImageViewAdapter extends RecyclerView.Adapter<RecyclerImageViewAda
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
         ImageView listItemImageView;
-        LinearLayout listItemLinearLayout;
+        ConstraintLayout listItemLayout;
 
         public ViewHolder(View itemView) {
             super(itemView);
             listItemImageView = itemView.findViewById(R.id.item_image_imageview);
-            listItemLinearLayout = itemView.findViewById(R.id.item_linearlayout);
+            listItemLayout = itemView.findViewById(R.id.item_layout);
             //set onclicklistener
             itemView.setOnClickListener(this);
-            listItemLinearLayout.setOnCreateContextMenuListener(this);
+            listItemLayout.setOnCreateContextMenuListener(this);
         }
 
         /**
@@ -97,9 +97,9 @@ class RecyclerImageViewAdapter extends RecyclerView.Adapter<RecyclerImageViewAda
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
             menu.setHeaderTitle("Choose Option");
-            menu.add(Menu.NONE, R.id.gridmenu_command_delete, Menu.NONE, "Delete"
-            ).setOnMenuItemClickListener(this);
-            menu.add(Menu.NONE, R.id.gridmenu_command_edit, Menu.NONE, "Edit").setOnMenuItemClickListener(this);
+            new MenuInflater(MyApplication.getAppContext()).inflate(R.menu.main_activity_context_menu, menu);
+            menu.findItem(R.id.gridmenu_command_delete).setOnMenuItemClickListener(this);
+            menu.findItem(R.id.gridmenu_command_edit).setOnMenuItemClickListener(this);
         }
 
         /**

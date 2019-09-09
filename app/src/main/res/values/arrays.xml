@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="numbers_of_columns_title_array">
+        <item>2 Columns</item>
+        <item>3 Columns</item>
+        <item>4 Columns</item>
+    </string-array>
+    <string-array name="numbers_of_columns_value_array">
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+</resources>

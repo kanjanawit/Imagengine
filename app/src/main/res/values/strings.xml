@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Imagengine</string>
+    <string name="numbers_of_column_preference_key">numbers_of_column_preference</string>
 </resources>
