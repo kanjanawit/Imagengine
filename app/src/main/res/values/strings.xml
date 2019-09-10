@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Imagengine</string>
     <string name="numbers_of_column_preference_key">numbers_of_column_preference</string>
+    <string name="is_light_theme_key">is_theme_light_preference</string>
 </resources>

@@ -24,15 +24,20 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this); //get preferences
+        boolean is_light_theme = sharedPreferences.getBoolean(getResources().getString(R.string.is_light_theme_key), true); //set theme from preference
+        if (is_light_theme) {
+            setTheme(R.style.AppTheme_LightMode);
+        } else {
+            setTheme(R.style.AppTheme_DarkMode);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main); //load main layout
-        PermissionCheck.GetExternalReadStoragePermission(this); //check permission to load picture
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+        PermissionCheck.GetExternalReadStoragePermission(this); //check permission to load/save/delete picture
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this); // set preference change listener
         mRecyclerView = findViewById(R.id.main_recyclerview);
         mLoadingBar = findViewById(R.id.loading_progressbar);
-
-        refreshGridView();
+        refreshGridView(); // load images into views
     }
 
     /**
@@ -106,10 +111,13 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         String col_numbers_key = getResources().getString(R.string.numbers_of_column_preference_key);
-        String default_col = String.valueOf(DEFAULT_COLUMNS_NUMBERS);
+        String is_light_theme_key = getResources().getString(R.string.is_light_theme_key);
         if (key.equals(col_numbers_key)) {
+            String default_col = String.valueOf(DEFAULT_COLUMNS_NUMBERS);
             int new_columns_number = Integer.parseInt(sharedPreferences.getString(col_numbers_key, default_col));
             mRecyclerView.setLayoutManager(new GridLayoutManager(MyApplication.getAppContext(), new_columns_number));
+        } else if (key.equals(is_light_theme_key)) {
+            this.recreate();
         }
     }
 

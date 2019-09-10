@@ -4,17 +4,15 @@
     <ListPreference
         android:entries="@array/numbers_of_columns_title_array"
         android:entryValues="@array/numbers_of_columns_value_array"
-        android:key="numbers_of_column_preference"
+        android:key="@string/numbers_of_column_preference_key"
         android:summary="choose how many picture show per row"
         android:title="Numbers of Column" />
     <SwitchPreference
         android:defaultValue="true"
-        android:key="is_theme_light_preference"
+        android:key="@string/is_light_theme_key"
         android:summary="Change Theme"
         android:summaryOff="Theme Color Dark"
         android:summaryOn="Theme Color Light"
-        android:switchTextOff="Dark"
-        android:switchTextOn="Light"
         android:text="Change Theme"
         android:title="Change Theme" />
 </PreferenceScreen>

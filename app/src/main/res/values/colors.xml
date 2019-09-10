@@ -3,4 +3,23 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <!--  TODO: Implement these Colors into theme
+        //light theme color
+        <color name="primaryColorLight">#a7ffeb</color>
+        <color name="primaryLightColorLight">#dbffff</color>
+        <color name="primaryDarkColorLight">#75ccb9</color>
+        <color name="secondaryColorLight">#43a047</color>
+        <color name="secondaryLightColorLight">#76d275</color>
+        <color name="secondaryDarkColorLight">#00701a</color>
+        <color name="primaryTextColorLight">#000000</color>
+        <color name="secondaryTextColorLight">#000000</color>
+        //dark theme color
+        <color name="primaryColorDark">#4a148c</color>
+        <color name="primaryLightColorDark">#7c43bd</color>
+        <color name="primaryDarkColorDark">#12005e</color>
+        <color name="secondaryColorDark">#880e4f</color>
+        <color name="secondaryLightColorDark">#bc477b</color>
+        <color name="secondaryDarkColorDark">#560027</color>
+        <color name="primaryTextColorDark">#ffffff</color>
+        <color name="secondaryTextColorDark">#ffffff</color>-->
 </resources>
