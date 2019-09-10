@@ -2,7 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/main_menu_action_search"
+        android:icon="@drawable/baseline_search_black_18"
+        android:title="Search"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="ifRoom|collapseActionView" />
+    <item
         android:id="@+id/main_menu_to_preferences_menu_item"
         android:title="Preferences"
         app:showAsAction="ifRoom" />
+
 </menu>
