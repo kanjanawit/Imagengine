@@ -9,6 +9,7 @@ import android.provider.MediaStore;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 
 public class DatabaseConnection {
     public static ArrayList<ImageData> getAllImages(Context context) {
@@ -44,12 +45,37 @@ public class DatabaseConnection {
         return resultImageDatas;
     }
 
-    public static void deleteImage(Context context, ImageData imageData) {
+    static void deleteImage(Context context, ImageData imageData) {
         Uri mediaImagesUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
         ContentResolver contentResolver = context.getContentResolver();
-        String[] args = new String[1];
-        args[0] = imageData.getImageId();
-        contentResolver.delete(mediaImagesUri, "_ID = ?", args);
+        String[] args = {imageData.getImageId()};
+        contentResolver.delete(mediaImagesUri, MediaStore.Images.Media._ID + " = ?", args);
     }
 
+    public static DetailImageData getDetailImageData(Context context, ImageData imageData) {
+        DetailImageData returnDetailImageData;
+        Uri mediaImagesUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+        ContentResolver contentResolver = context.getContentResolver();
+        String[] projection = {MediaStore.Images.Media._ID
+                , MediaStore.Images.Media.SIZE
+                , MediaStore.Images.Media.WIDTH
+                , MediaStore.Images.Media.HEIGHT};
+        String selection = MediaStore.Images.Media._ID + " = ?";
+        String[] selectionArgs = {imageData.getImageId()};
+        Cursor imagecursor = contentResolver.query(mediaImagesUri, projection, selection, selectionArgs, null);
+
+        Objects.requireNonNull(imagecursor).moveToFirst();
+        long fileSize;
+        int imageWidth;
+        int imageHeight;
+        int fileSizeColumn = imagecursor.getColumnIndex(MediaStore.Images.Media.SIZE);
+        int imageHeightColumn = imagecursor.getColumnIndex(MediaStore.Images.Media.HEIGHT);
+        int imageWidthColumn = imagecursor.getColumnIndex(MediaStore.Images.Media.WIDTH);
+        fileSize = imagecursor.getLong(fileSizeColumn);
+        imageWidth = imagecursor.getInt(imageWidthColumn);
+        imageHeight = imagecursor.getInt(imageHeightColumn);
+        returnDetailImageData = new DetailImageData(imageData, fileSize, imageHeight, imageWidth);
+        imagecursor.close();
+        return returnDetailImageData;
+    }
 }
