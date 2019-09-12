@@ -10,11 +10,14 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener, SearchView.OnQueryTextListener {
     //Constant
     private static final int DEFAULT_COLUMNS_NUMBERS = 3;
     RecyclerImageViewAdapter mRecyclerImageViewAdapter;
@@ -43,6 +46,9 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_activity_menu, menu);
+        MenuItem searchItem = menu.findItem(R.id.main_menu_action_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setOnQueryTextListener(this);
         return true;
     }
 
@@ -95,15 +101,32 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         }
     }
 
+    /**
+     * Called when the user submits the query. This could be due to a key press on the
+     * keyboard or due to pressing a submit button.
+     * The listener can override the standard behavior by returning true
+     * to indicate that it has handled the submit request. Otherwise return false to
+     * let the SearchView handle the submission by launching any associated intent.
+     *
+     * @param query the query text that is to be submitted
+     * @return true if the query has been handled by the listener, false to let the
+     * SearchView perform the default action.
+     */
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        mRecyclerImageViewAdapter.getFilter().filter(newText);
+        return true;
+    }
+
     public void refreshGridView() {
         AsyncTask backgroundWork = new AsyncTask() {
-            /**
-             * Runs on the UI thread before {@link #doInBackground}.
-             *
-             * @see #onPostExecute
-             * @see #doInBackground
-             */
-            @Override
+            ArrayList<ImageData> imageDatas;
+
             protected void onPreExecute() {
                 mRecyclerView.setVisibility(View.GONE);
                 mLoadingBar.setVisibility(View.VISIBLE);
@@ -111,23 +134,13 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
             @Override
             protected Object doInBackground(Object[] objects) {
-                mRecyclerImageViewAdapter = new RecyclerImageViewAdapter(getApplicationContext(), DatabaseConnection.getAllImages(getApplicationContext()));
+                imageDatas = DatabaseConnection.getAllImages(getApplicationContext());
                 return null;
             }
 
-            /**
-             * <p>Runs on the UI thread after {@link #doInBackground}. The
-             * specified result is the value returned by {@link #doInBackground}.</p>
-             *
-             * <p>This method won't be invoked if the task was cancelled.</p>
-             *
-             * @param o The result of the operation computed by {@link #doInBackground}.
-             * @see #onPreExecute
-             * @see #doInBackground
-             * @see #onCancelled(Object)
-             */
             @Override
             protected void onPostExecute(Object o) {
+                mRecyclerImageViewAdapter = new RecyclerImageViewAdapter(getApplicationContext(), imageDatas);
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MyApplication.getAppContext());
                 String col_key = getResources().getString(R.string.numbers_of_column_preference_key);
                 String default_col = String.valueOf(DEFAULT_COLUMNS_NUMBERS);

@@ -1,6 +1,5 @@
 package com.kanjanawit.imagengine;
 
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -10,6 +9,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -17,19 +19,39 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
-class RecyclerImageViewAdapter extends RecyclerView.Adapter<RecyclerImageViewAdapter.ViewHolder> {
+class RecyclerImageViewAdapter extends RecyclerView.Adapter<RecyclerImageViewAdapter.ViewHolder> implements Filterable {
     public static final String IMAGEDATA_EXTRA = "imagedata_extra";
-
-    private ContentResolver mContentResolver;
     private LayoutInflater mLayoutInflater;
     private ArrayList<ImageData> mImageDatas = new ArrayList<ImageData>();
+    private ArrayList<ImageData> mFullImageDatas = new ArrayList<ImageData>();
+    private Filter displayNameFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<ImageData> filteredList = new ArrayList<>();
+            if (constraint == null || constraint.length() == 0) {
+                filteredList.addAll(mFullImageDatas);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+                for (ImageData imageData : mFullImageDatas) {
+                    if (imageData.getDisplayName().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(imageData);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+            return results;
+        }
 
-    public RecyclerImageViewAdapter(@NonNull Context context, ArrayList<ImageData> imageDatas) {
-        mContentResolver = context.getContentResolver();
-        mLayoutInflater = LayoutInflater.from(context);
-        mImageDatas = imageDatas;
-    }
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            mImageDatas.clear();
+            mImageDatas.addAll((List<ImageData>) results.values);
+            notifyDataSetChanged();
+        }
+    };
 
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = mLayoutInflater.inflate(R.layout.recycler_image_item, parent, false);
@@ -124,5 +146,25 @@ class RecyclerImageViewAdapter extends RecyclerView.Adapter<RecyclerImageViewAda
             }
             return false;
         }
+    }
+
+    public RecyclerImageViewAdapter(@NonNull Context context, ArrayList<ImageData> imageDatas) {
+        mLayoutInflater = LayoutInflater.from(context);
+        mImageDatas = imageDatas;
+        mFullImageDatas = new ArrayList<ImageData>(imageDatas);
+    }
+
+    /**
+     * <p>Returns a filter that can be used to constrain data with a filtering
+     * pattern.</p>
+     *
+     * <p>This method is usually implemented by {@link Adapter}
+     * classes.</p>
+     *
+     * @return a filter used to constrain data
+     */
+    @Override
+    public Filter getFilter() {
+        return displayNameFilter;
     }
 }

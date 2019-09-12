@@ -13,9 +13,10 @@ import java.util.Date;
 public class DatabaseConnection {
     public static ArrayList<ImageData> getAllImages(Context context) {
         Uri mediaImagesUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+        String sortOrder = MediaStore.Images.Media.DATE_ADDED + " ASC";
         ContentResolver contentResolver = context.getContentResolver();
         String[] projection = {MediaStore.Images.Media._ID, MediaStore.Images.Media.DATE_ADDED, MediaStore.Images.Media.DATE_TAKEN, MediaStore.Images.Media.DISPLAY_NAME};
-        Cursor imagecursor = contentResolver.query(mediaImagesUri, projection, null, null, null);
+        Cursor imagecursor = contentResolver.query(mediaImagesUri, projection, null, null, sortOrder);
         ArrayList<ImageData> resultImageDatas = new ArrayList<ImageData>();
 
         if (imagecursor.moveToFirst()) {
