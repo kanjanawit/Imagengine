@@ -1,4 +1,4 @@
-package com.kanjanawit.imagengine;
+package com.kanjanawit.imagengine.Application;
 
 import android.app.Application;
 import android.content.Context;

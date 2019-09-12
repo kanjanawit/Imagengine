@@ -1,8 +1,10 @@
-package com.kanjanawit.imagengine;
+package com.kanjanawit.imagengine.Preference;
 
 import android.os.Bundle;
 
 import androidx.preference.PreferenceFragmentCompat;
+
+import com.kanjanawit.imagengine.R;
 
 public class PreferenceFragment extends PreferenceFragmentCompat {
 

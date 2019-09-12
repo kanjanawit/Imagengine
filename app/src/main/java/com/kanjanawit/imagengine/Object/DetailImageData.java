@@ -1,4 +1,4 @@
-package com.kanjanawit.imagengine;
+package com.kanjanawit.imagengine.Object;
 
 public class DetailImageData extends ImageData {
     private long mFileSize;

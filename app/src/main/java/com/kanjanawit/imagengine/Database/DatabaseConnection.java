@@ -1,4 +1,4 @@
-package com.kanjanawit.imagengine;
+package com.kanjanawit.imagengine.Database;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -6,6 +6,9 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
+
+import com.kanjanawit.imagengine.Object.DetailImageData;
+import com.kanjanawit.imagengine.Object.ImageData;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -45,7 +48,7 @@ public class DatabaseConnection {
         return resultImageDatas;
     }
 
-    static void deleteImage(Context context, ImageData imageData) {
+    public static void deleteImage(Context context, ImageData imageData) {
         Uri mediaImagesUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
         ContentResolver contentResolver = context.getContentResolver();
         String[] args = {imageData.getImageId()};

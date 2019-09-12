@@ -1,29 +1,42 @@
 package com.kanjanawit.imagengine;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.kanjanawit.imagengine.Application.MyApplication;
+import com.kanjanawit.imagengine.Database.DatabaseConnection;
+import com.kanjanawit.imagengine.Object.ImageData;
+import com.kanjanawit.imagengine.Preference.PreferenceActivity;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener, SearchView.OnQueryTextListener {
     //Constant
     private static final int DEFAULT_COLUMNS_NUMBERS = 3;
+    private static final int REQUEST_PERMISSION = 9998;
     RecyclerImageViewAdapter mRecyclerImageViewAdapter;
-    //private variable
-    private RecyclerView mRecyclerView;
     private ProgressBar mLoadingBar;
+    //private widgets
+    private RecyclerView mRecyclerView;
+    //private variable
+    private boolean permissionGranted = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,11 +49,10 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main); //load main layout
-        PermissionCheck.GetExternalReadStoragePermission(this); //check permission to load/save/delete picture
         sharedPreferences.registerOnSharedPreferenceChangeListener(this); // set preference change listener
         mRecyclerView = findViewById(R.id.main_recyclerview);
         mLoadingBar = findViewById(R.id.loading_progressbar);
-        refreshGridView(); // load images into views
+        GetExternalReadWriteStoragePermission(); //check permission to load/save/delete picture if passed load datas
     }
 
     @Override
@@ -143,5 +155,60 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             }
         };
         backgroundWork.execute();
+    }
+
+    /**
+     * Callback for the result from requesting permissions. This method
+     * is invoked for every call on {@link #requestPermissions(String[], int)}.
+     * <p>
+     * <strong>Note:</strong> It is possible that the permissions request interaction
+     * with the user is interrupted. In this case you will receive empty permissions
+     * and results arrays which should be treated as a cancellation.
+     * </p>
+     *
+     * @param requestCode  The request code passed in {@link #requestPermissions(String[], int)}.
+     * @param permissions  The requested permissions. Never null.
+     * @param grantResults The grant results for the corresponding permissions
+     *                     which is either {@link PackageManager#PERMISSION_GRANTED}
+     *                     or {@link PackageManager#PERMISSION_DENIED}. Never null.
+     * @see #requestPermissions(String[], int)
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_PERMISSION: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    permissionGranted = true;
+                    Log.d("Permission", "READ/WRITE granted");
+                } else {
+                    Log.d("Permission", "Permission Denied");
+                    finish();
+                }
+            }
+        }
+        if (permissionGranted) {
+            Log.d("Permission", "Starting app");
+            refreshGridView();
+        }
+    }
+
+    private void GetExternalReadWriteStoragePermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if ((this.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) ||
+                    (this.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                            != PackageManager.PERMISSION_GRANTED)) {
+                this.requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        REQUEST_PERMISSION);
+                Log.d("Permission", "Request READ/WRITE");
+            } else {
+                permissionGranted = true;
+                Log.d("Permission", "READ/WRITE already granted");
+                Log.d("Permission", "Starting app");
+                refreshGridView();
+            }
+
+        }
     }
 }

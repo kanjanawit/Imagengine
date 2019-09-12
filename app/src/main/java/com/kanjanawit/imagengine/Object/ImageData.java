@@ -1,4 +1,4 @@
-package com.kanjanawit.imagengine;
+package com.kanjanawit.imagengine.Object;
 
 import android.os.Parcel;
 import android.os.Parcelable;

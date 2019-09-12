@@ -11,6 +11,11 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
+import com.kanjanawit.imagengine.Application.MyApplication;
+import com.kanjanawit.imagengine.Database.DatabaseConnection;
+import com.kanjanawit.imagengine.Object.DetailImageData;
+import com.kanjanawit.imagengine.Object.ImageData;
+
 public class DetailImageActivity extends AppCompatActivity {
     DetailImageData mDetailImageData;
     @Override

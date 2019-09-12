@@ -1,10 +1,12 @@
-package com.kanjanawit.imagengine;
+package com.kanjanawit.imagengine.Preference;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
+
+import com.kanjanawit.imagengine.R;
 
 public class PreferenceActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
     @Override
