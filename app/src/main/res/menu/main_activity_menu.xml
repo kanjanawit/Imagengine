@@ -18,6 +18,9 @@
             <item
                 android:id="@+id/main_menu_sort_by_date_taken"
                 android:title="Date Taken" />
+            <item
+                android:id="@+id/main_menu_sort_by_date_added"
+                android:title="Date Added" />
         </menu>
     </item>
     <item

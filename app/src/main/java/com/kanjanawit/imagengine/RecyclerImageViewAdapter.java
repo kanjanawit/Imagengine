@@ -91,16 +91,21 @@ class RecyclerImageViewAdapter extends RecyclerView.Adapter<RecyclerImageViewAda
         notifyDataSetChanged();
     }
 
-    @Override
-    public Filter getFilter() {
-        return displayNameFilter;
-    }
-
     public void sortByDateTaken() {
         Collections.sort(mImageDatas, new Comparator<ImageData>() {
             @Override
             public int compare(ImageData o1, ImageData o2) {
                 return o1.getDateTaken().compareTo(o2.getDateTaken());
+            }
+        });
+        notifyDataSetChanged();
+    }
+
+    public void sortByDateAdded() {
+        Collections.sort(mImageDatas, new Comparator<ImageData>() {
+            @Override
+            public int compare(ImageData o1, ImageData o2) {
+                return o1.getDateAdded().compareTo(o2.getDateAdded());
             }
         });
         notifyDataSetChanged();
@@ -152,5 +157,10 @@ class RecyclerImageViewAdapter extends RecyclerView.Adapter<RecyclerImageViewAda
             }
             return false;
         }
+    }
+
+    @Override
+    public Filter getFilter() {
+        return displayNameFilter;
     }
 }
