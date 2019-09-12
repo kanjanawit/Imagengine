@@ -175,16 +175,14 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
      */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_PERMISSION: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    permissionGranted = true;
-                    Log.d("Permission", "READ/WRITE granted");
-                } else {
-                    Log.d("Permission", "Permission Denied");
-                    finish();
-                }
+        if (requestCode == REQUEST_PERMISSION) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                permissionGranted = true;
+                Log.d("Permission", "READ/WRITE granted");
+            } else {
+                Log.d("Permission", "Permission Denied");
+                finish();
             }
         }
         if (permissionGranted) {
