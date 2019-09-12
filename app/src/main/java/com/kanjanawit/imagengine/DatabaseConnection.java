@@ -38,8 +38,7 @@ public class DatabaseConnection {
                 dateTaken = new Date(imagecursor.getLong(dateTakenColumn));
                 dateAdded = new Date(imagecursor.getLong(dateAddedColumn));
                 displayName = imagecursor.getString(displayNameColumn);
-                thumbNail = MediaStore.Images.Thumbnails.getThumbnail(contentResolver, Integer.parseInt(id), MediaStore.Images.Thumbnails.MICRO_KIND, null);
-                resultImageDatas.add(new ImageData(id, dateTaken, dateAdded, displayName, thumbNail));
+                resultImageDatas.add(new ImageData(id, dateTaken, dateAdded, displayName));
             } while (imagecursor.moveToNext());
         }
         return resultImageDatas;
@@ -52,4 +51,5 @@ public class DatabaseConnection {
         args[0] = imageData.getImageId();
         contentResolver.delete(mediaImagesUri, "_ID = ?", args);
     }
+
 }

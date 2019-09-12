@@ -1,6 +1,5 @@
 package com.kanjanawit.imagengine;
 
-import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -11,14 +10,12 @@ public class ImageData implements Parcelable {
     private Date mDateTaken;
     private Date mDateAdded;
     private String mDisplayName;
-    private Bitmap mThumbNail;
 
-    public ImageData(String mImageId, Date mDateTaken, Date mDateAdded, String mDisplayName, Bitmap mThumbNail) {
+    public ImageData(String mImageId, Date mDateTaken, Date mDateAdded, String mDisplayName) {
         this.mImageId = mImageId;
         this.mDateTaken = mDateTaken;
         this.mDateAdded = mDateAdded;
         this.mDisplayName = mDisplayName;
-        this.mThumbNail = mThumbNail;
     }
 
     public String getImageId() {
@@ -35,10 +32,6 @@ public class ImageData implements Parcelable {
 
     public String getDisplayName() {
         return mDisplayName;
-    }
-
-    public Bitmap getThumbNail() {
-        return mThumbNail;
     }
 
     public static final Parcelable.Creator<ImageData> CREATOR = new Parcelable.Creator<ImageData>() {
@@ -60,7 +53,6 @@ public class ImageData implements Parcelable {
         long tmpMDateAdded = in.readLong();
         this.mDateAdded = tmpMDateAdded == -1 ? null : new Date(tmpMDateAdded);
         this.mDisplayName = in.readString();
-        this.mThumbNail = in.readParcelable(Bitmap.class.getClassLoader());
     }
 
     @Override
@@ -74,6 +66,5 @@ public class ImageData implements Parcelable {
         dest.writeLong(this.mDateTaken != null ? this.mDateTaken.getTime() : -1);
         dest.writeLong(this.mDateAdded != null ? this.mDateAdded.getTime() : -1);
         dest.writeString(this.mDisplayName);
-        dest.writeParcelable(this.mThumbNail, flags);
     }
 }

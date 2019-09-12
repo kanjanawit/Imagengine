@@ -1,8 +1,10 @@
 package com.kanjanawit.imagengine;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.provider.MediaStore;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -24,6 +26,7 @@ import java.util.List;
 
 class RecyclerImageViewAdapter extends RecyclerView.Adapter<RecyclerImageViewAdapter.ViewHolder> implements Filterable {
     static final String IMAGEDATA_EXTRA = "imagedata_extra";
+    private ContentResolver mContentResolver;
     private LayoutInflater mLayoutInflater;
     private ArrayList<ImageData> mImageDatas = new ArrayList<ImageData>();
     private ArrayList<ImageData> mFullImageDatas = new ArrayList<ImageData>();
@@ -55,15 +58,21 @@ class RecyclerImageViewAdapter extends RecyclerView.Adapter<RecyclerImageViewAda
     };
 
     RecyclerImageViewAdapter(@NonNull Context context, ArrayList<ImageData> imageDatas) {
+        mContentResolver = context.getContentResolver();
         mLayoutInflater = LayoutInflater.from(context);
         mImageDatas = imageDatas;
         mFullImageDatas = new ArrayList<ImageData>(imageDatas);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Bitmap bitmap = mImageDatas.get(position).getThumbNail();
-        holder.listItemImageView.setImageBitmap(bitmap);
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Bitmap bitmap = MediaStore.Images.Thumbnails.getThumbnail(mContentResolver, Integer.parseInt(mImageDatas.get(position).getImageId()), MediaStore.Images.Thumbnails.MICRO_KIND, null);
+                holder.listItemImageView.setImageBitmap(bitmap);
+            }
+        }).run();
     }
 
     @Override
