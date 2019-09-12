@@ -9,7 +9,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
@@ -19,10 +18,12 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 class RecyclerImageViewAdapter extends RecyclerView.Adapter<RecyclerImageViewAdapter.ViewHolder> implements Filterable {
-    public static final String IMAGEDATA_EXTRA = "imagedata_extra";
+    static final String IMAGEDATA_EXTRA = "imagedata_extra";
     private LayoutInflater mLayoutInflater;
     private ArrayList<ImageData> mImageDatas = new ArrayList<ImageData>();
     private ArrayList<ImageData> mFullImageDatas = new ArrayList<ImageData>();
@@ -53,9 +54,10 @@ class RecyclerImageViewAdapter extends RecyclerView.Adapter<RecyclerImageViewAda
         }
     };
 
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = mLayoutInflater.inflate(R.layout.recycler_image_item, parent, false);
-        return new ViewHolder(view);
+    RecyclerImageViewAdapter(@NonNull Context context, ArrayList<ImageData> imageDatas) {
+        mLayoutInflater = LayoutInflater.from(context);
+        mImageDatas = imageDatas;
+        mFullImageDatas = new ArrayList<ImageData>(imageDatas);
     }
 
     @Override
@@ -64,25 +66,51 @@ class RecyclerImageViewAdapter extends RecyclerView.Adapter<RecyclerImageViewAda
         holder.listItemImageView.setImageBitmap(bitmap);
     }
 
-    /**
-     * Returns the total number of items in the data set held by the adapter.
-     *
-     * @return The total number of items in this adapter.
-     */
     @Override
     public int getItemCount() {
         return mImageDatas.size();
     }
 
-    public ImageData getImageDataAtPosition(int position) {
+    @NonNull
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = mLayoutInflater.inflate(R.layout.recycler_image_item, parent, false);
+        return new ViewHolder(view);
+    }
+
+    private ImageData getImageDataAtPosition(int position) {
         return mImageDatas.get(position);
+    }
+
+    public void sortByName() {
+        Collections.sort(mImageDatas, new Comparator<ImageData>() {
+            @Override
+            public int compare(ImageData o1, ImageData o2) {
+                return o1.getDisplayName().compareTo(o2.getDisplayName());
+            }
+        });
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return displayNameFilter;
+    }
+
+    public void sortByDateTaken() {
+        Collections.sort(mImageDatas, new Comparator<ImageData>() {
+            @Override
+            public int compare(ImageData o1, ImageData o2) {
+                return o1.getDateTaken().compareTo(o2.getDateTaken());
+            }
+        });
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
         ImageView listItemImageView;
         ConstraintLayout listItemLayout;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             listItemImageView = itemView.findViewById(R.id.item_image_imageview);
             listItemLayout = itemView.findViewById(R.id.item_layout);
@@ -91,11 +119,6 @@ class RecyclerImageViewAdapter extends RecyclerView.Adapter<RecyclerImageViewAda
             listItemLayout.setOnCreateContextMenuListener(this);
         }
 
-        /**
-         * Called when a view has been clicked.
-         *
-         * @param v The view that was clicked.
-         */
         @Override
         public void onClick(View v) {
             int adapterPosition = getAdapterPosition();
@@ -106,15 +129,6 @@ class RecyclerImageViewAdapter extends RecyclerView.Adapter<RecyclerImageViewAda
             context.startActivity(intent);
         }
 
-        /**
-         * Called when the context menu for this view is being built. It is not
-         * safe to hold onto the menu after this method returns.
-         *
-         * @param menu     The context menu that is being built
-         * @param v        The view for which the context menu is being built
-         * @param menuInfo Extra information about the item for which the
-         *                 context menu should be shown. This information will vary
-         */
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
             menu.setHeaderTitle("Choose Option");
@@ -123,15 +137,7 @@ class RecyclerImageViewAdapter extends RecyclerView.Adapter<RecyclerImageViewAda
             menu.findItem(R.id.gridmenu_command_edit).setOnMenuItemClickListener(this);
         }
 
-        /**
-         * Called when a menu item has been invoked.  This is the first code
-         * that is executed; if it returns true, no other callbacks will be
-         * executed.
-         *
-         * @param item The menu item that was invoked.
-         * @return Return true to consume this click and prevent others from
-         * executing.
-         */
+
         @Override
         public boolean onMenuItemClick(MenuItem item) {
             if (item.getItemId() == R.id.gridmenu_command_edit) {
@@ -146,25 +152,5 @@ class RecyclerImageViewAdapter extends RecyclerView.Adapter<RecyclerImageViewAda
             }
             return false;
         }
-    }
-
-    public RecyclerImageViewAdapter(@NonNull Context context, ArrayList<ImageData> imageDatas) {
-        mLayoutInflater = LayoutInflater.from(context);
-        mImageDatas = imageDatas;
-        mFullImageDatas = new ArrayList<ImageData>(imageDatas);
-    }
-
-    /**
-     * <p>Returns a filter that can be used to constrain data with a filtering
-     * pattern.</p>
-     *
-     * <p>This method is usually implemented by {@link Adapter}
-     * classes.</p>
-     *
-     * @return a filter used to constrain data
-     */
-    @Override
-    public Filter getFilter() {
-        return displayNameFilter;
     }
 }

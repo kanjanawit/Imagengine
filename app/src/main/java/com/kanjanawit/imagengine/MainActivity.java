@@ -74,6 +74,10 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             Intent intent = new Intent(this, PreferenceActivity.class);
             startActivity(intent);
             return true;
+        } else if (item.getItemId() == R.id.main_menu_sort_by_name) {
+            mRecyclerImageViewAdapter.sortByName();
+        } else if (item.getItemId() == R.id.main_menu_sort_by_date_taken) {
+            mRecyclerImageViewAdapter.sortByDateTaken();
         }
         return super.onOptionsItemSelected(item);
     }
