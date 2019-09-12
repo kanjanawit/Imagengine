@@ -4,7 +4,6 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.provider.MediaStore;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -24,12 +23,12 @@ class RecyclerImageViewAdapter extends RecyclerView.Adapter<RecyclerImageViewAda
 
     private ContentResolver mContentResolver;
     private LayoutInflater mLayoutInflater;
-    private ArrayList<String> mImageIds = new ArrayList<String>();
+    private ArrayList<ImageData> mImageDatas = new ArrayList<ImageData>();
 
-    public RecyclerImageViewAdapter(@NonNull Context context, ArrayList<String> ids) {
+    public RecyclerImageViewAdapter(@NonNull Context context, ArrayList<ImageData> imageDatas) {
         mContentResolver = context.getContentResolver();
         mLayoutInflater = LayoutInflater.from(context);
-        mImageIds = ids;
+        mImageDatas = imageDatas;
     }
 
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -39,7 +38,7 @@ class RecyclerImageViewAdapter extends RecyclerView.Adapter<RecyclerImageViewAda
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Bitmap bitmap = MediaStore.Images.Thumbnails.getThumbnail(mContentResolver, Integer.parseInt(mImageIds.get(position)), MediaStore.Images.Thumbnails.MICRO_KIND, null);
+        Bitmap bitmap = mImageDatas.get(position).getThumbNail();
         holder.listItemImageView.setImageBitmap(bitmap);
     }
 
@@ -50,11 +49,11 @@ class RecyclerImageViewAdapter extends RecyclerView.Adapter<RecyclerImageViewAda
      */
     @Override
     public int getItemCount() {
-        return mImageIds.size();
+        return mImageDatas.size();
     }
 
-    public String getImageIdAtPosition(int position) {
-        return mImageIds.get(position);
+    public ImageData getImageDataAtPosition(int position) {
+        return mImageDatas.get(position);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
@@ -81,7 +80,7 @@ class RecyclerImageViewAdapter extends RecyclerView.Adapter<RecyclerImageViewAda
             Context context = v.getContext();
             // TODO Open Detail Activity and send mImageUri[adapterPosition].
             Intent intent = new Intent(context, DetailImageActivity.class);
-            intent.putExtra(URI_EXTRA, mImageIds.get(adapterPosition));
+            intent.putExtra(URI_EXTRA, mImageDatas.get(adapterPosition).getImageId());
             context.startActivity(intent);
         }
 
@@ -117,9 +116,9 @@ class RecyclerImageViewAdapter extends RecyclerView.Adapter<RecyclerImageViewAda
                 return true;
             } else if (item.getItemId() == R.id.gridmenu_command_delete) {
                 int deletePosition = getAdapterPosition();
-                DatabaseConnection.deleteImage(MyApplication.getAppContext(), getImageIdAtPosition(deletePosition));
+                DatabaseConnection.deleteImage(MyApplication.getAppContext(), getImageDataAtPosition(deletePosition));
                 //notify the recycler to update
-                mImageIds.remove(deletePosition);
+                mImageDatas.remove(deletePosition);
                 notifyItemRemoved(deletePosition);
                 return true;
             }
