@@ -25,8 +25,8 @@ public class DetailImageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail_image);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Intent intent = getIntent();
-        String imageId = intent.getStringExtra(RecyclerImageViewAdapter.URI_EXTRA);
-        Uri imageUri = Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, imageId);
+        ImageData imageData = intent.getParcelableExtra(RecyclerImageViewAdapter.IMAGEDATA_EXTRA);
+        Uri imageUri = Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, imageData.getImageId());
         ImageView mainDetailImageView = findViewById(R.id.mainDetailImageView);
         mainDetailImageView.setImageURI(imageUri);
     }

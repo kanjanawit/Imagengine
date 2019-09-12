@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 class RecyclerImageViewAdapter extends RecyclerView.Adapter<RecyclerImageViewAdapter.ViewHolder> {
-    public static final String URI_EXTRA = "uri_detail";
+    public static final String IMAGEDATA_EXTRA = "imagedata_extra";
 
     private ContentResolver mContentResolver;
     private LayoutInflater mLayoutInflater;
@@ -78,9 +78,9 @@ class RecyclerImageViewAdapter extends RecyclerView.Adapter<RecyclerImageViewAda
         public void onClick(View v) {
             int adapterPosition = getAdapterPosition();
             Context context = v.getContext();
-            // TODO Open Detail Activity and send mImageUri[adapterPosition].
+            // TODO Open Detail Activity and send ImageData at position.
             Intent intent = new Intent(context, DetailImageActivity.class);
-            intent.putExtra(URI_EXTRA, mImageDatas.get(adapterPosition).getImageId());
+            intent.putExtra(IMAGEDATA_EXTRA, mImageDatas.get(adapterPosition));
             context.startActivity(intent);
         }
 
