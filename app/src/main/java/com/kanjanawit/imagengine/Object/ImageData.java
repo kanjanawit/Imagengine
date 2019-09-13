@@ -6,10 +6,20 @@ import android.os.Parcelable;
 import java.util.Date;
 
 public class ImageData implements Parcelable {
-    private String mImageId;
-    private Date mDateTaken;
-    private Date mDateAdded;
-    private String mDisplayName;
+    public static final Creator<ImageData> CREATOR = new Creator<ImageData>() {
+        @Override
+        public ImageData createFromParcel(Parcel source) {
+            return new ImageData(source);
+        }
+
+        @Override
+        public ImageData[] newArray(int size) {
+            return new ImageData[size];
+        }
+    };
+    protected String mImageId;
+    protected Date mDateTaken;
+    protected Date mDateAdded;
 
     public ImageData(String mImageId, Date mDateTaken, Date mDateAdded, String mDisplayName) {
         this.mImageId = mImageId;
@@ -34,17 +44,12 @@ public class ImageData implements Parcelable {
         return mDisplayName;
     }
 
-    public static final Parcelable.Creator<ImageData> CREATOR = new Parcelable.Creator<ImageData>() {
-        @Override
-        public ImageData createFromParcel(Parcel source) {
-            return new ImageData(source);
-        }
+    protected String mDisplayName;
 
-        @Override
-        public ImageData[] newArray(int size) {
-            return new ImageData[size];
-        }
-    };
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
     protected ImageData(Parcel in) {
         this.mImageId = in.readString();
@@ -53,11 +58,6 @@ public class ImageData implements Parcelable {
         long tmpMDateAdded = in.readLong();
         this.mDateAdded = tmpMDateAdded == -1 ? null : new Date(tmpMDateAdded);
         this.mDisplayName = in.readString();
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
     }
 
     @Override

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dialog_detail_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/display_name_title_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Display name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/date_added_title_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Date Added"
+        app:layout_constraintStart_toStartOf="@+id/display_name_title_textview"
+        app:layout_constraintTop_toBottomOf="@+id/display_name_title_textview" />
+
+
+    <TextView
+        android:id="@+id/date_taken_title_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:text="Date Taken"
+        app:layout_constraintStart_toStartOf="@+id/date_added_title_textview"
+        app:layout_constraintTop_toBottomOf="@+id/date_added_title_textview" />
+
+    <TextView
+        android:id="@+id/resolution_title_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Resolution"
+        app:layout_constraintStart_toStartOf="@+id/date_taken_title_textview"
+        app:layout_constraintTop_toBottomOf="@+id/date_taken_title_textview" />
+
+    <TextView
+        android:id="@+id/file_size_title_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="32dp"
+        android:text="File Size"
+        app:layout_constraintStart_toStartOf="@+id/resolution_title_textview"
+        app:layout_constraintTop_toBottomOf="@+id/resolution_title_textview" />
+
+    <TextView
+        android:id="@+id/display_name_imagedata_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:paddingEnd="16dp"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="@+id/display_name_title_textview"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="@+id/display_name_title_textview"
+        app:layout_constraintVertical_bias="1.0"
+        tools:text="Filename.jpg" />
+
+    <TextView
+        android:id="@+id/date_added_imagedata_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:paddingEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/date_added_title_textview"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="@+id/date_added_title_textview"
+        tools:text="10/05/2019" />
+
+    <TextView
+        android:id="@+id/date_taken_imagedata_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:paddingEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/date_taken_title_textview"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="@+id/date_taken_title_textview"
+        tools:text="10/05/2019" />
+
+    <TextView
+        android:id="@+id/resolution_imagedata_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:paddingEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/resolution_title_textview"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="@+id/resolution_title_textview"
+        tools:text="300x300" />
+
+    <TextView
+        android:id="@+id/filesize_imagedata_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:paddingEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/file_size_title_textview"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="@+id/file_size_title_textview"
+        tools:text="34 kByte" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintGuide_percent="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
