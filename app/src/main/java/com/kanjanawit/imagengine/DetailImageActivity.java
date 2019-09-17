@@ -78,6 +78,12 @@ public class DetailImageActivity extends AppCompatActivity {
             }
         } else if (item.getItemId() == R.id.detail_menu_share) {
             //share
+            Intent shareIntent = new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.putExtra(Intent.EXTRA_STREAM, mFullImageUri);
+            shareIntent.setType("image/*");
+            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            startActivity(Intent.createChooser(shareIntent, "Share images..."));
         }
         return super.onOptionsItemSelected(item);
     }
