@@ -17,9 +17,9 @@ public class ImageData implements Parcelable {
             return new ImageData[size];
         }
     };
-    protected String mImageId;
-    protected Date mDateTaken;
-    protected Date mDateAdded;
+    String mImageId;
+    Date mDateTaken;
+    Date mDateAdded;
 
     public ImageData(String mImageId, Date mDateTaken, Date mDateAdded, String mDisplayName) {
         this.mImageId = mImageId;
@@ -44,14 +44,14 @@ public class ImageData implements Parcelable {
         return mDisplayName;
     }
 
-    protected String mDisplayName;
+    String mDisplayName;
 
     @Override
     public int describeContents() {
         return 0;
     }
 
-    protected ImageData(Parcel in) {
+    ImageData(Parcel in) {
         this.mImageId = in.readString();
         long tmpMDateTaken = in.readLong();
         this.mDateTaken = tmpMDateTaken == -1 ? null : new Date(tmpMDateTaken);

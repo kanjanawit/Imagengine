@@ -3,7 +3,6 @@ package com.kanjanawit.imagengine.Database;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 
@@ -21,14 +20,13 @@ public class DatabaseConnection {
         ContentResolver contentResolver = context.getContentResolver();
         String[] projection = {MediaStore.Images.Media._ID, MediaStore.Images.Media.DATE_ADDED, MediaStore.Images.Media.DATE_TAKEN, MediaStore.Images.Media.DISPLAY_NAME};
         Cursor imagecursor = contentResolver.query(mediaImagesUri, projection, null, null, sortOrder);
-        ArrayList<ImageData> resultImageDatas = new ArrayList<ImageData>();
+        ArrayList<ImageData> resultImageDatas = new ArrayList<>();
 
         if (imagecursor.moveToFirst()) {
             String id;
             Date dateTaken;
             Date dateAdded;
             String displayName;
-            Bitmap thumbNail;
             int idColumn = imagecursor.getColumnIndex(
                     MediaStore.Images.Media._ID);
             int dateTakenColumn = imagecursor.getColumnIndex(

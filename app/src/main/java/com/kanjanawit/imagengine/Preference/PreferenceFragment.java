@@ -6,7 +6,7 @@ import androidx.preference.PreferenceFragmentCompat;
 
 import com.kanjanawit.imagengine.R;
 
-public class PreferenceFragment extends PreferenceFragmentCompat {
+class PreferenceFragment extends PreferenceFragmentCompat {
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {

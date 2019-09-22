@@ -17,8 +17,8 @@ public class DetailImageData extends ImageData implements Parcelable {
             return new DetailImageData[size];
         }
     };
-    protected long mFileSize;
-    protected int mImageHeight;
+    private final long mFileSize;
+    private final int mImageHeight;
 
     public DetailImageData(ImageData imageData, long fileSize, int imageHeight, int imageWidth) {
         super(imageData.getImageId(), imageData.getDateTaken(), imageData.getDateAdded(), imageData.getDisplayName());
@@ -27,9 +27,9 @@ public class DetailImageData extends ImageData implements Parcelable {
         mImageWidth = imageWidth;
     }
 
-    protected int mImageWidth;
+    private final int mImageWidth;
 
-    protected DetailImageData(Parcel in) {
+    private DetailImageData(Parcel in) {
         super(in);
         this.mFileSize = in.readLong();
         this.mImageHeight = in.readInt();

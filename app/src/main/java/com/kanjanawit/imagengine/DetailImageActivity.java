@@ -24,8 +24,8 @@ import com.kanjanawit.imagengine.Object.ImageData;
 import java.io.IOException;
 
 public class DetailImageActivity extends AppCompatActivity {
-    DetailImageData mDetailImageData;
-    Uri mFullImageUri;
+    private DetailImageData mDetailImageData;
+    private Uri mFullImageUri;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this); //get preferences

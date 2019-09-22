@@ -30,11 +30,11 @@ import java.util.List;
 
 class RecyclerImageViewAdapter extends RecyclerView.Adapter<RecyclerImageViewAdapter.ViewHolder> implements Filterable {
     static final String IMAGEDATA_EXTRA = "imagedata_extra";
-    private ContentResolver mContentResolver;
-    private LayoutInflater mLayoutInflater;
-    private ArrayList<ImageData> mImageDatas = new ArrayList<ImageData>();
-    private ArrayList<ImageData> mFullImageDatas = new ArrayList<ImageData>();
-    private Filter displayNameFilter = new Filter() {
+    private final ContentResolver mContentResolver;
+    private final LayoutInflater mLayoutInflater;
+    private ArrayList<ImageData> mImageDatas;
+    private ArrayList<ImageData> mFullImageDatas;
+    private final Filter displayNameFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             List<ImageData> filteredList = new ArrayList<>();
@@ -65,7 +65,7 @@ class RecyclerImageViewAdapter extends RecyclerView.Adapter<RecyclerImageViewAda
         mContentResolver = context.getContentResolver();
         mLayoutInflater = LayoutInflater.from(context);
         mImageDatas = imageDatas;
-        mFullImageDatas = new ArrayList<ImageData>(imageDatas);
+        mFullImageDatas = new ArrayList<>(imageDatas);
     }
 
     @Override
@@ -125,8 +125,8 @@ class RecyclerImageViewAdapter extends RecyclerView.Adapter<RecyclerImageViewAda
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
-        ImageView listItemImageView;
-        ConstraintLayout listItemLayout;
+        final ImageView listItemImageView;
+        final ConstraintLayout listItemLayout;
 
         ViewHolder(View itemView) {
             super(itemView);

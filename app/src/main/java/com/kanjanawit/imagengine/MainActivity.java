@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     //Constant
     private static final int DEFAULT_COLUMNS_NUMBERS = 3;
     private static final int REQUEST_PERMISSION = 9998;
-    RecyclerImageViewAdapter mRecyclerImageViewAdapter;
+    private RecyclerImageViewAdapter mRecyclerImageViewAdapter;
     private ProgressBar mLoadingBar;
     //private widgets
     private RecyclerView mRecyclerView;
@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         return true;
     }
 
-    public void refreshGridView() {
+    private void refreshGridView() {
         AsyncTask backgroundWork = new AsyncTask() {
             ArrayList<ImageData> imageDatas;
 

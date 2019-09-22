@@ -21,13 +21,13 @@ import java.util.Locale;
 
 public class DetailImageDataDialogFragment extends DialogFragment {
     //widget
-    TextView mDisplayNameTextView;
-    TextView mDateAddedTextView;
-    TextView mDateTakenTextView;
-    TextView mResolutionTextView;
-    TextView mFileSizeTextView;
+    private TextView mDisplayNameTextView;
+    private TextView mDateAddedTextView;
+    private TextView mDateTakenTextView;
+    private TextView mResolutionTextView;
+    private TextView mFileSizeTextView;
     //variable
-    DetailImageData mDetailImagedata;
+    private DetailImageData mDetailImagedata;
 
     public DetailImageDataDialogFragment() {
     }
