@@ -43,6 +43,7 @@ public class DatabaseConnection {
                 resultImageDatas.add(new ImageData(id, dateTaken, dateAdded, displayName));
             } while (imagecursor.moveToNext());
         }
+        imagecursor.close();
         return resultImageDatas;
     }
 
